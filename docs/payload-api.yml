@@ -1,0 +1,168 @@
+components:
+  schemas:
+    BME680_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            temperature:
+              type: number
+              description: The temperature in degrees celsius.
+              example: 25.5
+            humidity:
+              type: number
+              description: The relative humidity in %.
+              example: 50.5
+            pressure:
+              type: number
+              description: The pressure in hPa.
+              example: 1013.25
+            gas_resistance:
+              type: number
+              description: The gas resistance in Ohms.
+              example: 100000
+    
+    NEO7M_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            latitude:
+              type: number
+              description: The latitude in degrees.
+              example: 38.736946
+            longitude:
+              type: number
+              description: The longitude in degrees.
+              example: -9.142685
+            altitude:
+              type: number
+              description: The altitude in meters.
+              example: 0
+            speed:
+              type: number
+              description: The speed in km/h.
+              example: 0
+            course:
+              type: number
+              description: The course in degrees.
+              example: 0
+            satellites:
+              type: number
+              description: The number of satellites.
+              example: 0
+            time:
+              type: string
+              description: The time in UTC.
+              example: 2021-08-27T15:00:00.000Z
+
+    MPU6500_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            acceleration:
+              type: object
+              properties:
+                x:
+                  type: number
+                  description: The acceleration in the x axis in m/s^2.
+                  example: 0
+                y:
+                  type: number
+                  description: The acceleration in the y axis in m/s^2.
+                  example: 0
+                z:
+                  type: number
+                  description: The acceleration in the z axis in m/s^2.
+                  example: 0
+            gyroscope:
+              type: object
+              properties:
+                x:
+                  type: number
+                  description: The gyroscope in the x axis in deg/s.
+                  example: 0
+                y:
+                  type: number
+                  description: The gyroscope in the y axis in deg/s.
+                  example: 0
+                z:
+                  type: number
+                  description: The gyroscope in the z axis in deg/s.
+                  example: 0
+
+    SEN0322_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            oxygen:
+              type: number
+              description: The oxygen in %.
+              example: 21.5
+                  
+    ValidationErrors:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Validation Error
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: number
+                example: '"temperature" must be a number'
+              path:
+                type: array
+                items:
+                  type: number
+                example: ["temperature"]
+              type:
+                type: number
+                example: number.base
+              context:
+                type: object
+                properties:
+                  limit:
+                    type: number
+                    example: -50
+                  value:
+                    type: number
+                    example: -110
+                  key:
+                    type: number
+                    example: temperature
+                  label:
+                    type: number
+                    example: temperature
+    
+    SyntaxError:
+      type: object
+      properties:
+        name:
+          type: string
+          exameple: Syntax Error
+        details:
+          type: string
+          example: Unexpected token ' in JSON at position 0
+
+tags:
+  - name: BME680
+    description: Temperature, Humidity, Pressure and Gas Sensor
+  - name: MPU-6500
+    description: Gyroscope and Accelerometer Sensor
+  - name: NEO-7M
+    description: GPS Sensor
+  - name: SEN0322
+    description: Oxygen Sensor
+  - name: SEN0159
+    description: Carbon Dioxyde Sensor
+  - name: MQ9
+    description: Carbon Monoxyde Sensor
+  - name: LDT0-028
+    description: Vibration Sensor 
+    
