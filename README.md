@@ -79,3 +79,6 @@ Two networks are used in this project:
 2. `api`: This network is only used by app.
 
 For more information on how the services are configured, refer to the docker-compose.yml file in the project directory.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
