@@ -4,10 +4,11 @@ const { fetchFromDatabase, addToDatabase } = require("../database");
 const { validateBME680 } = require("../validate");
 const logger = require("../logger");
 
+
 // Middleware to log request info
 router.use((req, res, next) => {
   logger.info({
-    message: `[ENDPOINT] ${req.method} '/v1/bme680/'${req.path}`,
+    message: `[ENDPOINT] ${req.method} 'api/v1/bme680/'${req.path}`,
     ip: req.ip,
     body: req.body,
   });
@@ -25,7 +26,7 @@ router.use((req, res, next) => {
     const elapsedTimeInMs = elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1e6;
 
     logger.info({
-      message: `[RESPONSE] ${req.method} '/v1/bme680/'${req.path}`,
+      message: `[RESPONSE] ${req.method} 'api/v1/bme680/'${req.path}`,
       status_code: res.statusCode,
       time_elapsed: elapsedTimeInMs.toFixed(3) + ` ms`,
     });
@@ -36,7 +37,7 @@ router.use((req, res, next) => {
 
 /**
  * @swagger
- * /v1/bme680:
+ * /api/v1/bme680:
  *   get:
  *     tags: [BME680]
  *     summary: Get sensor data
@@ -64,7 +65,7 @@ router.get("/", async (req, res) => {
  * tags:
  *   name: BME680
  * description: Sensor data from BME680
- * /v1/bme680:
+ * /api/v1/bme680:
  *    post:
  *      tags: [BME680]
  *      summary: Post sensor data

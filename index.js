@@ -58,7 +58,7 @@ const swagger_options = {
 // Swagger Docs customization
 const swagger_specs = swaggerJsDoc(swagger_options);
 app.use(
-  "/v1/docs",
+  "/api/v1/docs",
   swaggerUI.serve,
   swaggerUI.setup(swagger_specs, {
     customSiteTitle: "Payload API",
@@ -68,10 +68,10 @@ app.use(
 
 // Redirect API root to docs webpage
 app.get("/", (req, res) => {
-  res.redirect("/v1/docs");
+  res.redirect("/api/v1/docs");
 });
 
-app.get("/v1/docs.json", (req, res) => {
+app.get("/api/v1/docs.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(swagger_specs);
 });
@@ -80,7 +80,7 @@ app.get("/v1/docs.json", (req, res) => {
 fs.readdir(static.ROUTES_DIR, (err, files) => {
   files.forEach((file) =>
     app.use(
-      `/v1/${file.replace(".js", "")}`,
+      `/api/v1/${file.replace(".js", "")}`,
       require(static.ROUTES_DIR + file.replace(".js", ""))
     )
   );
