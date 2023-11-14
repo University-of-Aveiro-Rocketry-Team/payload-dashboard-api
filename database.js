@@ -34,6 +34,10 @@ const addToDatabase = async (collectionName, data) => {
     await mongoClient.connect();
     const database = mongoClient.db(static.DATABASE_NAME);
     const collection = database.collection(collectionName);
+    
+    // Add a timestamp to the data
+    data.timestamp = new Date();
+    
     await collection.insertOne(data);
     logger.info(`[DATABASE] Added data to ${collectionName} collection`);
   } catch (error) {
