@@ -39,9 +39,8 @@ router.use((req, res, next) => {
  * @swagger
  * /api/v1/bme680:
  *   get:
+ *     summary: Get BME680 data
  *     tags: [BME680]
- *     summary: Get sensor data
- *     description: Retrieve the temperature, humidity, gas, and pressure readings from the BME680 sensor.
  *     responses:
  *       200:
  *         description: The BME680 sensor readings
@@ -62,14 +61,10 @@ router.get("/", async (req, res) => {
 
 /**
  * @swagger
- * tags:
- *   name: BME680
- * description: Sensor data from BME680
  * /api/v1/bme680:
  *    post:
+ *      summary: Insert BME680 data to the database
  *      tags: [BME680]
- *      summary: Post sensor data
- *      description: Post the temperature, humidity, gas, and pressure readings from the BME680 sensor.
  *      requestBody:
  *        required: true
  *        content:

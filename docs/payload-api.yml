@@ -92,6 +92,16 @@ components:
                   description: The gyroscope in the z axis in deg/s.
                   example: 0
 
+    MQ9_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            carbon_monoxyde:
+              type: number
+              description: The carbon monoxyde in ppm.
+              example: 0
+
     SEN0322_Data:
       type: object
       properties:
@@ -156,7 +166,7 @@ tags:
   - name: MPU-6500
     description: Gyroscope and Accelerometer Sensor
   - name: NEO-7M
-    description: GPS Sensor
+    description: GPS
   - name: SEN0322
     description: Oxygen Sensor
   - name: SEN0159
