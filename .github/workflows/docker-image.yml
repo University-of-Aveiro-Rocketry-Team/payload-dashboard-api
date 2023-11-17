@@ -5,6 +5,10 @@ on:
     branches:
       - main
       # Add other branches if necessary
+    paths-ignore:
+    - 'README.md'
+    - '.github/workflows/**'
+     # Add any other paths or patterns you want to ignore
 
 jobs:
   build-and-push:
