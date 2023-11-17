@@ -1,0 +1,32 @@
+name: Manual Deploy to Raspberry Pi
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: SSH and Deploy to Raspberry Pi
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.RASPBERRY_PI_HOST }}
+          username: ${{ secrets.CLERIGO_RASPBERRY_PI_USERNAME }}
+          password: ${{ secrets.CLERIGO_RASPBERRY_PI_SSH_PASSWORD }}
+          port: ${{ secrets.CLERIGO_RASPBERRY_PI_PORT }}
+          script: |
+            cd payload-dashboard-api
+            git pull
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
