@@ -1,3 +1,5 @@
+[![Docker Build](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/docker-image.yml/badge.svg)](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/docker-image.yml)
+
 # payload-dashboard-api
 
 This is an Node.js API project with several services, including MongoDB, Graylog, and a custom application. The services can be deployed in development mode or orchestrated by Docker Compose using the provided docker-compose.yml file.  
