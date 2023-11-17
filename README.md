@@ -1,4 +1,6 @@
+[![CodeQL](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/codeql.yml/badge.svg)](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/codeql.yml)
 [![Docker Build](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/docker-image.yml/badge.svg)](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/docker-image.yml)
+[![Web Deploy](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/raspberrypi.yml/badge.svg)](https://github.com/University-of-Aveiro-Rocketry-Team/payload-dashboard-api/actions/workflows/raspberrypi.yml)
 
 # payload-dashboard-api
 
