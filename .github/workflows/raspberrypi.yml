@@ -27,6 +27,7 @@ jobs:
           script: |
             cd payload-dashboard-api
             git pull
+            cd deploy
             docker compose pull
             docker compose down
             docker compose up -d
