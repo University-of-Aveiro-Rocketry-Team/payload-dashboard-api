@@ -20,7 +20,7 @@ jobs:
       - name: SSH and Deploy to Raspberry Pi
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.RASPBERRY_PI_HOST }}
+          host: ${{ secrets.CLERIGO_RASPBERRY_PI_HOST }}
           username: ${{ secrets.CLERIGO_RASPBERRY_PI_USERNAME }}
           password: ${{ secrets.CLERIGO_RASPBERRY_PI_SSH_PASSWORD }}
           port: ${{ secrets.CLERIGO_RASPBERRY_PI_PORT }}
