@@ -3,8 +3,11 @@ const logger = require("./logger");
 const static = require("./static");
 
 const fetchFromDatabase = async (collectionName) => {
-  const mongoClient = new MongoClient("mongodb://mongodb:27017");
-  // const mongoClient = new MongoClient("mongodb://localhost:27017");
+  const mongoClient = new MongoClient(
+    "mongodb://" +
+    (process.env.MONGODB_HOST ? process.env.MONGODB_HOST : "localhost") +
+    ":27017"
+  );
 
   try {
     await mongoClient.connect();
@@ -27,25 +30,26 @@ const fetchFromDatabase = async (collectionName) => {
 };
 
 const addToDatabase = async (collectionName, data) => {
-  const mongoClient = new MongoClient("mongodb://mongodb:27017");
-  // const mongoClient = new MongoClient("mongodb://localhost:27017");
+  const mongoClient = new MongoClient(
+    "mongodb://" +
+    (process.env.MONGODB_HOST ? process.env.MONGODB_HOST : "localhost") +
+    ":27017"
+  );
 
   try {
     await mongoClient.connect();
     const database = mongoClient.db(static.DATABASE_NAME);
     const collection = database.collection(collectionName);
-    
+
     // Add a timestamp to the data
     data.timestamp = new Date();
-    
+
     await collection.insertOne(data);
     logger.info(`[DATABASE] Added data to ${collectionName} collection`);
 
     if (collectionName == "neo7m" || collectionName == "mpu6500") {
       // Publish MQTT Topic
-      
     }
-
   } catch (error) {
     logger.error({
       message: `[DATABASE] Failed to add data to ${collectionName} collection: ${error.message}`,
@@ -89,13 +93,11 @@ const updateDatabase = async (collectionName, param, paramValue, newValues) => {
 const deleteFromDatabase = async (collectionName, param, paramValue) => {
   // NOT YET IMPLEMENTED
   // const mongoClient = new MongoClient("mongodb://mongodb:27017");
-
   // try {
   //   await mongoClient.connect();
   //   const database = mongoClient.db(static.DATABASE_NAME);
   //   const collection = database.collection(collectionName);
   //   const data = await collection.findOne({ [param]: paramValue });
-
   //   if (data) {
   //     await collection.deleteOne({ [param]: paramValue });
   //     let user = await collection.findOne({
@@ -104,7 +106,6 @@ const deleteFromDatabase = async (collectionName, param, paramValue) => {
   //     // Delete the data from the cache
   //     if (!user) await deleteFromCache(data.external_information.id);
   //   }
-
   //   logger.warning(
   //     `[DATABASE] Deleted data from ${collectionName} collection with ${param}: ${paramValue}`
   //   );

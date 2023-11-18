@@ -98,6 +98,8 @@ services:
       - graylog
     environment:
       PORT: 3000
+      MONGODB_HOST: mongodb
+      MQTT_HOST: mqtt
     networks:
       - backend
     volumes:

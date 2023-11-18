@@ -1,5 +1,5 @@
 const mqtt = require("mqtt");
-const client = mqtt.connect("mqtt://mqtt:1883");
+const client = mqtt.connect("mqtt://" + (process.env.MQTT_HOST ? process.env.MQTT_HOST : "localhost") + ":1883");
 
 client.on("connect", function () {
   console.log("connected to the broker");
