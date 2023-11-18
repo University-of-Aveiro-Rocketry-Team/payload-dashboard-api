@@ -7,6 +7,7 @@ on:
     paths-ignore:
     - 'README.md'
     - '.github/workflows/**'
+    - 'deploy/**'
 
 jobs:
   build-and-push-amd64:
