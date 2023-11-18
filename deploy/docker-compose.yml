@@ -90,6 +90,7 @@ services:
 
   app:
     image: andreclerigo/payload-dashboard-api:latest-arm64
+    pull_policy: always
     container_name: app
     ports:
       - "3000:3000"
