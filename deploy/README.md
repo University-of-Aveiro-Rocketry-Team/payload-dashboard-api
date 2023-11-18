@@ -23,3 +23,14 @@ Should get the following output
 ```
 Loaded image: mongodb-raspberrypi4-unofficial-r7.0.3:latest
 ```
+<br>
+
+## Getting Started
+Create a .env file to store the required environment variables with the following format:
+
+```
+GRAYLOG_PASSWORD_SECRET=<YOUR_GRAYLOG_PASSWORD>
+GRAYLOG_ROOT_PASSWORD_SHA2=<YOUR_GRAYLOG_PASSWORD_IN_SHA2>
+MQTT_USERNAME=<MQTT_BROKER_USERNAME>
+MQTT_PASSWORD=<MQTT_BROKER_PASSWORD>
+```
