@@ -10,7 +10,7 @@ client.on("connect", function () {
 });
 
 function publishMessage(topic, message) {
-  client.publish(topic, message, function (err) {
+  client.publish(topic, JSON.stringify(message), function (err) {
     if (err) {
       console.error(`Failed to publish message: ${err}`);
       logger.error({
@@ -19,7 +19,9 @@ function publishMessage(topic, message) {
       });
     } else {
       console.log(`Message published to topic ${topic}`);
-      logger.info(`[BROKER] Message published to topic ${topic} with payload ${message}`);
+      logger.info(
+        `[BROKER] Message published to topic ${topic} with payload ${JSON.stringify(message)}`
+      );
     }
   });
 }
