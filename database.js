@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const { publish } = require("./broker");
 const logger = require("./logger");
 const static = require("./static");
 
@@ -48,7 +49,7 @@ const addToDatabase = async (collectionName, data) => {
     logger.info(`[DATABASE] Added data to ${collectionName} collection`);
 
     if (collectionName == "neo7m" || collectionName == "mpu6500") {
-      // Publish MQTT Topic
+      publish(collectionName, data);
     }
   } catch (error) {
     logger.error({
