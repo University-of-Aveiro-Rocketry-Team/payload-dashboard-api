@@ -84,6 +84,7 @@ services:
       - "9001:9001"
     volumes:
       - ../mqtt_conf:/mosquitto/config:rw
+      - ../mqtt_data:/mosquitto/data:rw
     networks:
       - backend
 
@@ -115,6 +116,7 @@ volumes:
   graylog_data:
   graylog_journal:
   mqtt_conf:
+  mqtt_data:
 
 networks:
   api:
