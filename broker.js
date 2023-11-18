@@ -20,3 +20,7 @@ function publishMessage(topic, message) {
     }
   });
 }
+
+module.exports = {
+  publishMessage,
+};
