@@ -23,10 +23,13 @@ To get started, first clone this repository and navigate to the project director
 git clone git@github.com:University-of-Aveiro-Rocketry-Team/payload-dashboard-api.git
 cd payload-dashboard-api
 ```
-Then, create a .env file to store the required environment variables:
+Then, create a .env file to store the required environment variables with the following format:
 
 ```
-cp .env.example .env
+GRAYLOG_PASSWORD_SECRET=<YOUR_GRAYLOG_PASSWORD>
+GRAYLOG_ROOT_PASSWORD_SHA2=<YOUR_GRAYLOG_PASSWORD_IN_SHA2>
+MQTT_USERNAME=<MQTT_BROKER_USERNAME>
+MQTT_PASSWORD=<MQTT_BROKER_PASSWORD>
 ```
 Edit the .env file and set the required values for GRAYLOG_PASSWORD_SECRET and GRAYLOG_ROOT_PASSWORD_SHA2.  
 <br>
