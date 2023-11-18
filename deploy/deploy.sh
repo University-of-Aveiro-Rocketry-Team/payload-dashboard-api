@@ -8,7 +8,7 @@ docker compose up -d
 timeout=600  # 10 minutes
 port=3000    # main app service port
 
-until nc -z "$host" $port || [ $timeout -eq 0 ]; do
+until nc -z localhost $port || [ $timeout -eq 0 ]; do
   >&2 echo "Service is unavailable - sleeping"
   sleep 5
   timeout=$((timeout-5))
