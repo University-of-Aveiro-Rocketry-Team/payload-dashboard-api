@@ -10,7 +10,7 @@ COPY package*.json ./
 # Install the app dependencies
 RUN npm install
 
-# Copy the app source code to the working directory
+# Copy the app source code to the working directory except the .env file
 COPY . .
 
 ENV PORT=3000

@@ -48,7 +48,7 @@ const addToDatabase = async (collectionName, data) => {
     await collection.insertOne(data);
     logger.info(`[DATABASE] Added data to ${collectionName} collection`);
 
-    if (collectionName == "neo7m" || collectionName == "mpu6500") {
+    if (collectionName == "neo7m" || collectionName == "mpu6500" || collectionName == "bme680") { // BME680 MUST BE REMOVED WHEN THE OTHERS ARE WORKING
       publishMessage(collectionName, data);
     }
   } catch (error) {

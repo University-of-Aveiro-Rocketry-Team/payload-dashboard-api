@@ -102,7 +102,7 @@ services:
       MONGODB_HOST: mongodb
       MQTT_HOST: mqtt
     env_file:
-      - ip.env
+      - .env
     networks:
       - backend
     volumes:
