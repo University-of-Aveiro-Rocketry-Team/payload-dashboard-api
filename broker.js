@@ -11,7 +11,7 @@ function publishMessage(topic, message) {
     if (err) {
       console.error(`Failed to publish message: ${err}`);
       logger.error({
-        message: `[DATABASE] Failed to publish message on topic ${topic}`,
+        message: `[BROKER] Failed to publish message on topic ${topic}`,
         err,
       });
     } else {
