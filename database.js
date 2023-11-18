@@ -40,6 +40,12 @@ const addToDatabase = async (collectionName, data) => {
     
     await collection.insertOne(data);
     logger.info(`[DATABASE] Added data to ${collectionName} collection`);
+
+    if (collectionName == "neo7m" || collectionName == "mpu6500") {
+      // Publish MQTT Topic
+      
+    }
+
   } catch (error) {
     logger.error({
       message: `[DATABASE] Failed to add data to ${collectionName} collection: ${error.message}`,

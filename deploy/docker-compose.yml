@@ -75,6 +75,17 @@ services:
       - "graylog_journal:/usr/share/graylog/data/journal"
     networks:
       - backend
+  
+  mqtt:
+    image: "eclipse-mosquitto:latest"
+    container_name: mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ../mqtt_conf:/mosquitto/config:rw
+    networks:
+      - backend
 
   app:
     image: andreclerigo/payload-dashboard-api:latest-arm64
@@ -99,6 +110,7 @@ volumes:
   os_data:
   graylog_data:
   graylog_journal:
+  mqtt_conf:
 
 networks:
   api:
