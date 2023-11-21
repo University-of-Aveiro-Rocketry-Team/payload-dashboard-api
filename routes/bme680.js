@@ -55,7 +55,7 @@ router.get("/", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("bme680"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -92,9 +92,9 @@ router.get("/", async (req, res) => {
 router.post("/", validateBME680, async (req, res) => {
   try {
     await addToDatabase("bme680", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -132,12 +132,12 @@ router.post("/", validateBME680, async (req, res) => {
  *          description: Internal server error
  */
 router.delete("/:id", async (req, res) => {
-  
+
   try {
     await deleteFromDatabase("bme680", req.params['id']);
-    res.status(200).send("Data removed successfully");
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
