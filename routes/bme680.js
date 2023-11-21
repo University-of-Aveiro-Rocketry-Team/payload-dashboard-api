@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { fetchFromDatabase, addToDatabase } = require("../database");
+const { fetchFromDatabase, addToDatabase, deleteFromDatabase } = require("../database");
 const { validateBME680 } = require("../validate");
 const logger = require("../logger");
 
@@ -97,5 +97,49 @@ router.post("/", validateBME680, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+/**
+ * @swagger
+ * /api/v1/bme680/{id}:
+ *    delete:
+ *      summary: Remove BME680 data from the database
+ *      tags: [BME680]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: The ID of the BME680 object to delete
+ *      responses:
+ *        200:
+ *          description: Data removed successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        404:
+ *          description: ID not found
+ *        500:
+ *          description: Internal server error
+ */
+router.delete("/:id", async (req, res) => {
+  
+  try {
+    await deleteFromDatabase("bme680", req.params['id']);
+    res.status(200).send("Data removed successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 module.exports = router;

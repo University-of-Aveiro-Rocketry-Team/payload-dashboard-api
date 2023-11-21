@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const { publishMessage } = require("./broker");
 const logger = require("./logger");
 const static = require("./static");
@@ -63,6 +63,37 @@ const addToDatabase = async (collectionName, data) => {
   }
 };
 
+const deleteFromDatabase = async (collectionName, idValue) => {
+  const mongoClient = new MongoClient(
+    "mongodb://" +
+      (process.env.MONGODB_HOST ? process.env.MONGODB_HOST : "localhost") +
+      ":27017"
+  );
+
+  try {
+    await mongoClient.connect();
+    const database = mongoClient.db(static.DATABASE_NAME);
+    const collection = database.collection(collectionName);
+    const data = await collection.findOne({ _id: new ObjectId(idValue) });
+    if (data) {
+      await collection.deleteOne({ _id: new ObjectId(idValue) });
+    }
+    logger.warn(
+      `[DATABASE] Deleted data from ${collectionName} collection with id: ${idValue}`
+    );
+    return data;
+  } catch (error) {
+    logger.error({
+      message: `[DATABASE] Failed to delete data from ${collectionName} collection: ${error.message}`,
+      error,
+    });
+    console.error(error); // Debugging purposes
+    throw new Error("Failed to delete data from database");
+  } finally {
+    await mongoClient.close();
+  }
+};
+
 const updateDatabase = async (collectionName, param, paramValue, newValues) => {
   // NOT YET IMPLEMENTED
   // const mongoClient = new MongoClient("mongodb://mongodb:27017");
@@ -91,37 +122,6 @@ const updateDatabase = async (collectionName, param, paramValue, newValues) => {
   // }
 };
 
-const deleteFromDatabase = async (collectionName, param, paramValue) => {
-  // NOT YET IMPLEMENTED
-  // const mongoClient = new MongoClient("mongodb://mongodb:27017");
-  // try {
-  //   await mongoClient.connect();
-  //   const database = mongoClient.db(static.DATABASE_NAME);
-  //   const collection = database.collection(collectionName);
-  //   const data = await collection.findOne({ [param]: paramValue });
-  //   if (data) {
-  //     await collection.deleteOne({ [param]: paramValue });
-  //     let user = await collection.findOne({
-  //       "external_information.id": data.external_information.id,
-  //     });
-  //     // Delete the data from the cache
-  //     if (!user) await deleteFromCache(data.external_information.id);
-  //   }
-  //   logger.warning(
-  //     `[DATABASE] Deleted data from ${collectionName} collection with ${param}: ${paramValue}`
-  //   );
-  //   return data;
-  // } catch (error) {
-  //   logger.error({
-  //     message: `[DATABASE] Failed to delete data from ${collectionName} collection: ${error.message}`,
-  //     error,
-  //   });
-  //   console.error(error); // Debugging purposes
-  //   throw new Error("Failed to delete data from database");
-  // } finally {
-  //   await mongoClient.close();
-  // }
-};
 
 module.exports = {
   fetchFromDatabase,
