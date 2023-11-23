@@ -43,18 +43,185 @@ components:
               type: number
               description: The speed in km/h.
               example: 0
-            course:
+            time:
+              type: string
+              description: The time in UTC (Hours, Minutes and Seconds).
+              example: 12:00:00
+    
+    GPRMC_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            valid:
+              type: boolean
+              description: The validity of the data.
+              example: true
+            latitude:
               type: number
-              description: The course in degrees.
+              description: The latitude in degrees.
+              example: 38.736946
+            longitude:
+              type: number
+              description: The longitude in degrees.
+              example: -9.142685
+            speed_knots:
+              type: number
+              description: The speed in knots.
               example: 0
+            date:
+              type: string
+              description: The date in UTC (Day, Month and Year).
+              example: 12:00:00
+            magnetic_variation:
+              type: number
+              description: The magnetic variation in degrees.
+              example: 0
+
+    GPVTG_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            true_track_degrees:
+              type: number
+              description: The true track degrees.
+              example: 0
+            speed_knots:
+              type: number
+              description: The speed in knots.
+              example: 0
+            speed_kph:
+              type: number
+              description: The speed in km/h.
+              example: 0
+    
+    GPGGA_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            latitude:
+              type: number
+              description: The latitude in degrees.
+              example: 38.736946
+            longitude:
+              type: number
+              description: The longitude in degrees.
+              example: -9.142685
+            altitude:
+              type: number
+              description: The altitude in meters.
+              example: 0
+            fix_quality:
+              type: number
+              description: The fix quality (1, 2 or 3).
+              example: 3
             satellites:
               type: number
-              description: The number of satellites.
+              description: The number of satellites tracked.
+              example: 4
+            hdop:
+              type: number
+              description: The horizontal dilution of precision.
+              example: 0
+            height_geoid:
+              type: number
+              description: The height of geoid above WGS84 ellipsoid.
               example: 0
             time:
               type: string
-              description: The time in UTC.
-              example: 2021-08-27T15:00:00.000Z
+              description: The time in UTC (Hours, Minutes and Seconds).
+              example: 12:00:00
+
+    GPGSA_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            mode:
+              type: string
+              description: The mode (A or M).
+              example: A
+            fix_type:
+              type: number
+              description: The fix type (1, 2 or 3).
+              example: 3
+            satellites:
+              type: array
+              items:
+                type: number
+              description: The satellites used for fix (up to 12).
+              example: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            pdop:
+              type: number
+              description: The position dilution of precision.
+              example: 0
+            hdop:
+              type: number
+              description: The horizontal dilution of precision.
+              example: 0
+            vdop:
+              type: number
+              description: The vertical dilution of precision.
+              example: 0
+
+    GPGLL_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            mode:
+              type: string
+              description: The mode (A or V).
+              example: A
+            latitude:
+              type: number
+              description: The latitude in degrees.
+              example: 38.736946
+            longitude:
+              type: number
+              description: The longitude in degrees.
+              example: -9.142685
+            time:
+              type: string
+              description: The time in UTC (Hours, Minutes and Seconds).
+              example: 12:00:00
+
+    GPGSV_Data:
+      type: object
+      properties:
+        data:
+          properties:
+            total_messages:
+              type: number
+              description: The total number of messages.
+              example: 1
+            message_number:
+              type: number
+              description: The message number.
+              example: 1
+            satellites:
+              type: array
+              items:
+                type: object
+                properties:
+                  prn:
+                    type: number
+                    description: The satellite PRN number.
+                    example: 1
+                  elevation:
+                    type: number
+                    description: The satellite elevation in degrees.
+                    example: 0
+                  azimuth:
+                    type: number
+                    description: The satellite azimuth in degrees.
+                    example: 0
+                  snr:
+                    type: number
+                    description: The satellite signal to noise ratio.
+                    example: 0
 
     MPU6500_Data:
       type: object

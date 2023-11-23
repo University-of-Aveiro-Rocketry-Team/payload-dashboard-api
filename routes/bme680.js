@@ -132,7 +132,6 @@ router.post("/", validateBME680, async (req, res) => {
  *          description: Internal server error
  */
 router.delete("/:id", async (req, res) => {
-
   try {
     await deleteFromDatabase("bme680", req.params['id']);
     res.status(200).send({"message": "Data removed successfully"});

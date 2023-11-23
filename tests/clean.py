@@ -2,8 +2,8 @@ import requests
 import argparse
 
 
-
 def get_ids(API_ENDPOINT):
+    print(API_ENDPOINT)
     response = requests.get(API_ENDPOINT)
 
     if response.status_code == 200:

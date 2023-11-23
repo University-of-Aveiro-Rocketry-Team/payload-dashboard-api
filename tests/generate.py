@@ -19,10 +19,10 @@ def generate_bme680_data():
 
     return {
         "data": {
-            "temperature": temperature,
-            "humidity": humidity,
-            "pressure": pressure,
-            "gas_resistance": gas_resistance
+            "temperature": round(temperature, 2),
+            "humidity": round(humidity, 2),
+            "pressure": round(pressure, 2),
+            "gas_resistance": round(gas_resistance, 2)
         }
     }
 
