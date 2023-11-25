@@ -26,14 +26,38 @@ def generate_bme680_data():
         }
     }
 
+def generate_neo7m_data():
+    # A function that generates data for latitude, longitude, altitude, speed and time
+    # the data is is close to a real world usage i.e., there are no sudden jumps in the data
+
+    # Latitude
+    latitude = random.uniform(35, 40)
+    # Longitude
+    longitude = random.uniform(35, 40)
+    # Altitude
+    altitude = random.uniform(50, 250)
+    # Speed
+    speed = random.uniform(0, 10)
+    # Time in hh:mm:ss format
+    time = time.strftime("%H:%M:%S", time.localtime())
+
+    return {
+        "data": {
+            "latitude": round(latitude, 2),
+            "longitude": round(longitude, 2),
+            "altitude": round(altitude, 2),
+            "speed": round(speed, 2),
+            "time": round(time, 2)
+        }
+    }
+
 def post_data(api_url, sensors):
     for sensor in sensors:
         API_ENDPOINT = api_url + '/' + sensor
         if sensor == 'bme680':
             data = generate_bme680_data()
         elif sensor == 'neo7m':
-            # Add data generation for neo7m
-            pass
+            data = generate_neo7m_data()
         elif sensor == 'mpu6500':
             # Add data generation for mpu6500
             pass

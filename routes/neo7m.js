@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { fetchFromDatabase, addToDatabase, deleteFromDatabase } = require("../database");
-// const { validateBME680 } = require("../validate");
+const { validateNEO7M, validateID } = require("../validate");
 const logger = require("../logger");
+
 
 // Middleware to log request info
 router.use((req, res, next) => {
@@ -69,7 +70,7 @@ router.get("/", async (req, res) => {
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/NEO-7M_Data'
+ *              $ref: '#/components/schemas/NEO7M_Data'
  *      responses:
  *        200:
  *          description: Data added successfully
@@ -90,7 +91,7 @@ router.get("/", async (req, res) => {
  */
 router.post("/", async (req, res) => {
   try {
-    await addToDatabase("bme680", req.body);
+    await addToDatabase("neo7m", req.body);
     res.status(200).send("Data added successfully");
   } catch (error) {
     res.status(500).send("Internal Server Error");
@@ -130,7 +131,7 @@ router.post("/", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m", req.params['id']);
     res.status(200).send({"message": "Data removed successfully"});
@@ -156,7 +157,50 @@ router.delete("/:id", async (req, res) => {
  *         description: Internal server error
  */
 router.get("/gprmc", async (req, res) => {
-  // Implementation to fetch and send $GPRMC data
+  try {
+    res.json(await fetchFromDatabase("neo7m-gprmc"));
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+/**
+ * @swagger
+ * /api/v1/neo7m/gprmc:
+ *    post:
+ *      summary: Insert GPS RMC data to the database
+ *      tags: [NEO-7M]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GPRMC_Data'
+ *      responses:
+ *        200:
+ *          description: Data added successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        500:
+ *          description: Internal server error
+ */
+router.post("/gprmc", validateNEO7M, async (req, res) => {
+  try {
+    await addToDatabase("neo7m-gprmc", req.body);
+    res.status(200).send("Data added successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /**
@@ -192,12 +236,12 @@ router.get("/gprmc", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("gprmc/:id", async (req, res) => {
+router.delete("/gprmc/:id", validateID, async (req, res) => {
   try {
-    await deleteFromDatabase("neo7m-gprmc", req.params['id']);
-    res.status(200).send({"message": "Data removed successfully"});
+    await deleteFromDatabase("neo7m-gprmc", req.params["id"]);
+    res.status(200).send({ message: "Data removed successfully" });
   } catch (error) {
-    res.status(500).send({"message": "Internal Server Error"});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -218,7 +262,50 @@ router.delete("gprmc/:id", async (req, res) => {
  *         description: Internal server error
  */
 router.get("/gpgga", async (req, res) => {
-  // Implementation to fetch and send $GPGGA data
+  try {
+    res.json(await fetchFromDatabase("neo7m-gpgga"));
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+/**
+ * @swagger
+ * /api/v1/neo7m/gpgga:
+ *    post:
+ *      summary: Insert GPS GGA data to the database
+ *      tags: [NEO-7M]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GPGGA_Data'
+ *      responses:
+ *        200:
+ *          description: Data added successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        500:
+ *          description: Internal server error
+ */
+router.post("/gpgga", validateNEO7M, async (req, res) => {
+  try {
+    await addToDatabase("neo7m-gpgga", req.body);
+    res.status(200).send("Data added successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /**
@@ -254,12 +341,12 @@ router.get("/gpgga", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("gpgga/:id", async (req, res) => {
+router.delete("&gpgga/:id", validateID, async (req, res) => {
   try {
-    await deleteFromDatabase("neo7m-gpgga", req.params['id']);
-    res.status(200).send({"message": "Data removed successfully"});
+    await deleteFromDatabase("neo7m-gpgga", req.params["id"]);
+    res.status(200).send({ message: "Data removed successfully" });
   } catch (error) {
-    res.status(500).send({"message": "Internal Server Error"});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -280,7 +367,50 @@ router.delete("gpgga/:id", async (req, res) => {
  *         description: Internal server error
  */
 router.get("/gpvtg", async (req, res) => {
-  // Implementation to fetch and send $GPVTG data
+  try {
+    res.json(await fetchFromDatabase("neo7m-gpvtg"));
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+/**
+ * @swagger
+ * /api/v1/neo7m/pgvtg:
+ *    post:
+ *      summary: Insert GPS VTG data to the database
+ *      tags: [NEO-7M]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GPVTG_Data'
+ *      responses:
+ *        200:
+ *          description: Data added successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        500:
+ *          description: Internal server error
+ */
+router.post("/gpvtg", validateNEO7M, async (req, res) => {
+  try {
+    await addToDatabase("neo7m-gpvtg", req.body);
+    res.status(200).send("Data added successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /**
@@ -316,7 +446,7 @@ router.get("/gpvtg", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("gpvtg/:id", async (req, res) => {
+router.delete("&gpvtg/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpvtg", req.params["id"]);
     res.status(200).send({ message: "Data removed successfully" });
@@ -342,7 +472,50 @@ router.delete("gpvtg/:id", async (req, res) => {
  *         description: Internal server error
  */
 router.get("/gpgsa", async (req, res) => {
-  // Implementation to fetch and send $GPGSA data
+  try {
+    res.json(await fetchFromDatabase("neo7m-gpgsa"));
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+/**
+ * @swagger
+ * /api/v1/neo7m/gpgsa:
+ *    post:
+ *      summary: Insert GPS GSA data to the database
+ *      tags: [NEO-7M]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GPGSA_Data'
+ *      responses:
+ *        200:
+ *          description: Data added successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        500:
+ *          description: Internal server error
+ */
+router.post("/gpgsa", validateNEO7M, async (req, res) => {
+  try {
+    await addToDatabase("neo7m-gpgsa", req.body);
+    res.status(200).send("Data added successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /**
@@ -378,12 +551,12 @@ router.get("/gpgsa", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("gpgsa/:id", async (req, res) => {
+router.delete("/gpgsa/:id", validateID, async (req, res) => {
   try {
-    await deleteFromDatabase("neo7m-gpgsa", req.params['id']);
-    res.status(200).send({"message": "Data removed successfully"});
+    await deleteFromDatabase("neo7m-gpgsa", req.params["id"]);
+    res.status(200).send({ message: "Data removed successfully" });
   } catch (error) {
-    res.status(500).send({"message": "Internal Server Error"});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -404,7 +577,50 @@ router.delete("gpgsa/:id", async (req, res) => {
  *         description: Internal server error
  */
 router.get("/gpgll", async (req, res) => {
-  // Implementation to fetch and send $GPGLL data
+  try {
+    res.json(await fetchFromDatabase("neo7m-gpgll"));
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+/**
+ * @swagger
+ * /api/v1/neo7m/gpgll:
+ *    post:
+ *      summary: Insert GPS GLL data to the database
+ *      tags: [NEO-7M]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GPGLL_Data'
+ *      responses:
+ *        200:
+ *          description: Data added successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        500:
+ *          description: Internal server error
+ */
+router.post("/gpgll", validateNEO7M, async (req, res) => {
+  try {
+    await addToDatabase("neo7m-gpgll", req.body);
+    res.status(200).send("Data added successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /**
@@ -440,12 +656,12 @@ router.get("/gpgll", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("gpgll/:id", async (req, res) => {
+router.delete("/gpgll/:id", validateID, async (req, res) => {
   try {
-    await deleteFromDatabase("neo7m-gpgll", req.params['id']);
-    res.status(200).send({"message": "Data removed successfully"});
+    await deleteFromDatabase("neo7m-gpgll", req.params["id"]);
+    res.status(200).send({ message: "Data removed successfully" });
   } catch (error) {
-    res.status(500).send({"message": "Internal Server Error"});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -466,7 +682,50 @@ router.delete("gpgll/:id", async (req, res) => {
  *         description: Internal server error
  */
 router.get("/gpgsv", async (req, res) => {
-  // Implementation to fetch and send $GPGSV data
+  try {
+    res.json(await fetchFromDatabase("neo7m-gpgsv"));
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+/**
+ * @swagger
+ * /api/v1/neo7m/gpgsv:
+ *    post:
+ *      summary: Insert GPS GSC data to the database
+ *      tags: [NEO-7M]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/GPGSV_Data'
+ *      responses:
+ *        200:
+ *          description: Data added successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        500:
+ *          description: Internal server error
+ */
+router.post("/gpgsv", validateNEO7M, async (req, res) => {
+  try {
+    await addToDatabase("neo7m-gpgsv", req.body);
+    res.status(200).send("Data added successfully");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /**
@@ -502,7 +761,7 @@ router.get("/gpgsv", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.delete("gpgsv/:id", async (req, res) => {
+router.delete("/gpgsv/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpgsv", req.params["id"]);
     res.status(200).send({ message: "Data removed successfully" });

@@ -73,10 +73,6 @@ components:
               type: string
               description: The date in UTC (Day, Month and Year).
               example: 12:00:00
-            magnetic_variation:
-              type: number
-              description: The magnetic variation in degrees.
-              example: 0
 
     GPVTG_Data:
       type: object
@@ -86,10 +82,6 @@ components:
             true_track_degrees:
               type: number
               description: The true track degrees.
-              example: 0
-            speed_knots:
-              type: number
-              description: The speed in knots.
               example: 0
             speed_kph:
               type: number
