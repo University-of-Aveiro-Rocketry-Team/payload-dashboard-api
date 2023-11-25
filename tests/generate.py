@@ -39,7 +39,7 @@ def generate_neo7m_data():
     # Speed
     speed = random.uniform(0, 10)
     # Time in hh:mm:ss format
-    time = time.strftime("%H:%M:%S", time.localtime())
+    current_time = time.strftime("%H:%M:%S", time.localtime())
 
     return {
         "data": {
@@ -47,7 +47,7 @@ def generate_neo7m_data():
             "longitude": round(longitude, 2),
             "altitude": round(altitude, 2),
             "speed": round(speed, 2),
-            "time": round(time, 2)
+            "time": current_time
         }
     }
 

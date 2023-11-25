@@ -55,7 +55,7 @@ router.get("/", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -92,9 +92,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     await addToDatabase("neo7m", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -160,7 +160,7 @@ router.get("/gprmc", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m-gprmc"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -197,9 +197,9 @@ router.get("/gprmc", async (req, res) => {
 router.post("/gprmc", validateNEO7M, async (req, res) => {
   try {
     await addToDatabase("neo7m-gprmc", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -239,9 +239,9 @@ router.post("/gprmc", validateNEO7M, async (req, res) => {
 router.delete("/gprmc/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gprmc", req.params["id"]);
-    res.status(200).send({ message: "Data removed successfully" });
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -265,7 +265,7 @@ router.get("/gpgga", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m-gpgga"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -302,9 +302,9 @@ router.get("/gpgga", async (req, res) => {
 router.post("/gpgga", validateNEO7M, async (req, res) => {
   try {
     await addToDatabase("neo7m-gpgga", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -344,9 +344,9 @@ router.post("/gpgga", validateNEO7M, async (req, res) => {
 router.delete("&gpgga/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpgga", req.params["id"]);
-    res.status(200).send({ message: "Data removed successfully" });
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -370,7 +370,7 @@ router.get("/gpvtg", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m-gpvtg"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -407,9 +407,9 @@ router.get("/gpvtg", async (req, res) => {
 router.post("/gpvtg", validateNEO7M, async (req, res) => {
   try {
     await addToDatabase("neo7m-gpvtg", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -449,9 +449,9 @@ router.post("/gpvtg", validateNEO7M, async (req, res) => {
 router.delete("&gpvtg/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpvtg", req.params["id"]);
-    res.status(200).send({ message: "Data removed successfully" });
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -475,7 +475,7 @@ router.get("/gpgsa", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m-gpgsa"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -512,9 +512,9 @@ router.get("/gpgsa", async (req, res) => {
 router.post("/gpgsa", validateNEO7M, async (req, res) => {
   try {
     await addToDatabase("neo7m-gpgsa", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -554,9 +554,9 @@ router.post("/gpgsa", validateNEO7M, async (req, res) => {
 router.delete("/gpgsa/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpgsa", req.params["id"]);
-    res.status(200).send({ message: "Data removed successfully" });
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -580,7 +580,7 @@ router.get("/gpgll", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m-gpgll"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -617,9 +617,9 @@ router.get("/gpgll", async (req, res) => {
 router.post("/gpgll", validateNEO7M, async (req, res) => {
   try {
     await addToDatabase("neo7m-gpgll", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -659,9 +659,9 @@ router.post("/gpgll", validateNEO7M, async (req, res) => {
 router.delete("/gpgll/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpgll", req.params["id"]);
-    res.status(200).send({ message: "Data removed successfully" });
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -685,7 +685,7 @@ router.get("/gpgsv", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("neo7m-gpgsv"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -722,9 +722,9 @@ router.get("/gpgsv", async (req, res) => {
 router.post("/gpgsv", validateNEO7M, async (req, res) => {
   try {
     await addToDatabase("neo7m-gpgsv", req.body);
-    res.status(200).send("Data added successfully");
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -764,9 +764,9 @@ router.post("/gpgsv", validateNEO7M, async (req, res) => {
 router.delete("/gpgsv/:id", validateID, async (req, res) => {
   try {
     await deleteFromDatabase("neo7m-gpgsv", req.params["id"]);
-    res.status(200).send({ message: "Data removed successfully" });
+    res.status(200).send({"message": "Data removed successfully"});
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
