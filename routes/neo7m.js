@@ -47,7 +47,7 @@ router.use((req, res, next) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/NEO-7M_Data'
+ *               $ref: '#/components/schemas/NEO7M_Data'
  *       500:
  *         description: Internal server error
  */
