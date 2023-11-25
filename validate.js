@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { ObjectId } = require("mongodb");
 
 
 // BME680 schema that corresponds to Swagger documentation
@@ -33,6 +34,32 @@ const neo7mSchema = Joi.object({
   time: Joi.string().required(),
 });
 
+
+// Middleware for validating ID
+const validateID = (req, res, next) => {
+  try {
+    const id = new ObjectId(req.params.id);
+  } catch (error) {
+    return res.status(400)
+      .send({ 
+        "name": "ID Validation Error",
+        "details": [
+          {
+            "message": "\"id\" must be a valid MongoDB ObjectId.",
+            "path": ["id"],
+            "type": "",
+            "context": {
+              "value": req.params.id,
+              "label": "id",
+              "key": "id"
+            }
+          }
+        ]    
+      }
+    );
+  }
+  next();
+};
 
 // Middleware for validating BME680 data
 const validateBME680 = (req, res, next) => {
@@ -72,4 +99,5 @@ module.exports = {
   validateBME680,
   validateMPU6050,
   validateNEO7M,
+  validateID
 };
