@@ -4,6 +4,8 @@ import argparse
 import random
 
 
+altitude = 3000
+
 def generate_bme680_data():
     # A function that generates data for temperature, humidity, pressure, and gas resistance
     # the data is is close to a real world usage i.e., there are no sudden jumps in the data
@@ -27,6 +29,7 @@ def generate_bme680_data():
     }
 
 def generate_neo7m_data():
+    global altitude
     # A function that generates data for latitude, longitude, altitude, speed and time
     # the data is is close to a real world usage i.e., there are no sudden jumps in the data
 
@@ -35,7 +38,7 @@ def generate_neo7m_data():
     # Longitude
     longitude = random.uniform(35, 40)
     # Altitude
-    altitude = random.uniform(50, 250)
+    altitude -= random.uniform(1, 2)
     # Speed
     speed = random.uniform(0, 10)
     # Time in hh:mm:ss format
@@ -52,6 +55,8 @@ def generate_neo7m_data():
     }
 
 def post_data(api_url, sensors):
+    global altitude
+
     for sensor in sensors:
         API_ENDPOINT = api_url + '/' + sensor
         if sensor == 'bme680':

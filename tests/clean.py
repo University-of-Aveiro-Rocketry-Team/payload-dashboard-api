@@ -24,6 +24,8 @@ def delete_data(api_url, sensors):
             for message in ['gprmc', 'gpgga', 'gpvtg', 'gpgsa', 'gpgll', 'gpgsv']:
                 API_ENDPOINT = api_url + '/' + sensor + '/' + message
                 ids += get_ids(API_ENDPOINT)
+            API_ENDPOINT = api_url + '/' + sensor
+            ids += get_ids(API_ENDPOINT)
         elif sensor == 'mpu6500':
             # Add data generation for mpu6500
             pass
