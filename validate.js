@@ -128,13 +128,13 @@ const validateBME680 = (req, res, next) => {
   next();
 };
 
-// Middleware for validating MPU6050 data
-const validateMPU6050 = (req, res, next) => {
+// Middleware for validating MPU6500 data
+const validateMPU6500 = (req, res, next) => {
   const { error } = mpu6050Schema.validate(req.body["data"], { abortEarly: false });
   if (error) {
     return res
       .status(400)
-      .send({ name: "MPU6050 Validation Error", details: error.details });
+      .send({ name: "MPU6500 Validation Error", details: error.details });
   }
   next();
 };
@@ -212,7 +212,7 @@ const validateNEO7M = (req, res, next) => {
 
 module.exports = {
   validateBME680,
-  validateMPU6050,
+  validateMPU6500,
   validateNEO7M,
   validateID
 };

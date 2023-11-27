@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { fetchFromDatabase, addToDatabase } = require("../database");
-// const { validateBME680 } = require("../validate");
+const { validateMPU6500, validateID } = require("../validate");
 const logger = require("../logger");
 
 // Middleware to log request info
@@ -46,7 +46,7 @@ router.use((req, res, next) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MPU-6500_Data'
+ *               $ref: '#/components/schemas/MPU6500_Data'
  *       500:
  *         description: Internal server error
  */
@@ -54,7 +54,7 @@ router.get("/", async (req, res) => {
   try {
     res.json(await fetchFromDatabase("mpu6500"));
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
 
@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/MPU-6500_Data'
+ *              $ref: '#/components/schemas/MPU6500_Data'
  *      responses:
  *        200:
  *          description: Data added successfully
@@ -88,13 +88,56 @@ router.get("/", async (req, res) => {
  *        500:
  *          description: Internal server error
  */
-router.post("/", async (req, res) => {
+router.post("/", validateMPU6500, async (req, res) => {
   try {
-    // await addToDatabase("bme680", req.body);
-    res.status(200).send("Data added successfully");
+    await addToDatabase("mpu6500", req.body);
+    res.status(200).send({"message": "Data added successfully"});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({"message": "Internal Server Error"});
   }
 });
+
+/**
+ * @swagger
+ * /api/v1/mpu6500/{id}:
+ *    delete:
+ *      summary: Remove MPU-6500 data from the database
+ *      tags: [MPU-6500]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: The ID of the MPU-6500 object to delete
+ *      responses:
+ *        200:
+ *          description: Data removed successfully
+ *        422:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ValidationErrors'
+ *        400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SyntaxError'
+ *        404:
+ *          description: ID not found
+ *        500:
+ *          description: Internal server error
+ */
+router.delete("/:id", validateID, async (req, res) => {
+  try {
+    await deleteFromDatabase("mpu6500", req.params["id"]);
+    res.status(200).send({"message": "Data deleted successfully"});
+  } catch (error) {
+    res.status(500).send({"message": "Internal Server Error"});
+  }
+});
+
 
 module.exports = router;

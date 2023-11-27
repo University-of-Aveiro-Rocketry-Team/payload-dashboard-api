@@ -6,7 +6,7 @@ const client = mqtt.connect("mqtt://" + (process.env.MQTT_HOST ? process.env.MQT
 });
 
 client.on("connect", function () {
-  console.log("connected to the broker");
+  console.log("Connected to the broker successfully");
 });
 
 function publishMessage(topic, message) {

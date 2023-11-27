@@ -220,7 +220,7 @@ components:
       properties:
         data:
           properties:
-            acceleration:
+            accelerometer:
               type: object
               properties:
                 x:
