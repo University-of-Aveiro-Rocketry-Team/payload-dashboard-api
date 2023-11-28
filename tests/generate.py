@@ -54,6 +54,34 @@ def generate_neo7m_data():
         }
     }
 
+def generate_mpu6500_data():
+    # A function that generates data for accelerometer, gyroscope, and magnetometer
+    # the data is is close to a real world usage i.e., there are no sudden jumps in the data
+
+    # Accelerometer
+    accelerometer = {
+        "x": random.uniform(0, 10),
+        "y": random.uniform(0, 10),
+        "z": random.uniform(0, 10)
+    }
+    # Gyroscope
+    gyroscope = {
+        "x": random.uniform(0, 10),
+        "y": random.uniform(0, 10),
+        "z": random.uniform(0, 10)
+    }
+
+    return {
+        "data": {
+            "acceleration_x": round(accelerometer['x'], 2),
+            "acceleration_y": round(accelerometer['y'], 2),
+            "acceleration_z": round(accelerometer['z'], 2),
+            "gyroscope_x": round(gyroscope['x'], 2),
+            "gyroscope_y": round(gyroscope['y'], 2),
+            "gyroscope_z": round(gyroscope['z'], 2)
+        }
+    }
+
 def post_data(api_url, sensors):
     global altitude
 
@@ -64,8 +92,7 @@ def post_data(api_url, sensors):
         elif sensor == 'neo7m':
             data = generate_neo7m_data()
         elif sensor == 'mpu6500':
-            # Add data generation for mpu6500
-            pass
+            data = generate_mpu6500_data()
         
         response = requests.post(API_ENDPOINT, json=data)
         print(f"Posting data for {sensor}. Status Code: {response.status_code}, Response: {response.json()}")

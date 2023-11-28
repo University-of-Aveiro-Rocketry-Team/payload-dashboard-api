@@ -27,8 +27,7 @@ def delete_data(api_url, sensors):
             API_ENDPOINT = api_url + '/' + sensor
             ids += get_ids(API_ENDPOINT)
         elif sensor == 'mpu6500':
-            # Add data generation for mpu6500
-            pass
+            ids = get_ids(API_ENDPOINT)
         
         for id in ids:
             response = requests.delete(API_ENDPOINT + '/' + id)

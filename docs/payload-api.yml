@@ -220,36 +220,30 @@ components:
       properties:
         data:
           properties:
-            accelerometer:
-              type: object
-              properties:
-                x:
-                  type: number
-                  description: The acceleration in the x axis in m/s^2.
-                  example: 0
-                y:
-                  type: number
-                  description: The acceleration in the y axis in m/s^2.
-                  example: 0
-                z:
-                  type: number
-                  description: The acceleration in the z axis in m/s^2.
-                  example: 0
-            gyroscope:
-              type: object
-              properties:
-                x:
-                  type: number
-                  description: The gyroscope in the x axis in deg/s.
-                  example: 0
-                y:
-                  type: number
-                  description: The gyroscope in the y axis in deg/s.
-                  example: 0
-                z:
-                  type: number
-                  description: The gyroscope in the z axis in deg/s.
-                  example: 0
+            acceleration_x:
+              type: number
+              description: The acceleration in the x axis in m/s^2.
+              example: 0
+            acceleration_y:
+              type: number
+              description: The acceleration in the y axis in m/s^2.
+              example: 0
+            acceleration_Z:
+              type: number
+              description: The acceleration in the z axis in m/s^2.
+              example: 0
+            gyroscope_x:
+              type: number
+              description: The gyroscope in the x axis in deg/s.
+              example: 0
+            gyroscope_y:
+              type: number
+              description: The gyroscope in the y axis in deg/s.
+              example: 0
+            gyroscope_z:
+              type: number
+              description: The gyroscope in the z axis in deg/s.
+              example: 0
 
     MQ9_Data:
       type: object

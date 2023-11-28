@@ -12,16 +12,12 @@ const bme680Schema = Joi.object({
 
 // MPU6050 schema that corresponds to Swagger documentation
 const mpu6050Schema = Joi.object({
-  accelerometer: Joi.object({
-    x: Joi.number().required(),
-    y: Joi.number().required(),
-    z: Joi.number().required(),
-  }).required(),
-  gyroscope: Joi.object({
-    x: Joi.number().required(),
-    y: Joi.number().required(),
-    z: Joi.number().required(),
-  }).required(),
+  acceleration_x: Joi.number().required(),
+  acceleration_y: Joi.number().required(),
+  acceleration_z: Joi.number().required(),
+  gyroscope_x: Joi.number().required(),
+  gyroscope_y: Joi.number().required(),
+  gyroscope_z: Joi.number().required(),
 });
 
 // NEO-7M schema that corresponds to Swagger documentation
