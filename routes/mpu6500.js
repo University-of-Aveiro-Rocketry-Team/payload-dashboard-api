@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { fetchFromDatabase, addToDatabase } = require("../database");
+const { fetchFromDatabase, addToDatabase, deleteFromDatabase } = require("../database");
 const { validateMPU6500, validateID } = require("../validate");
 const logger = require("../logger");
 
