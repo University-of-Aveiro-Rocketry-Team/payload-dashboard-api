@@ -11,6 +11,7 @@ services:
     volumes:
       - mongodb_data:/data/db
       - /var/lib/mongodb:/data/db
+    mem_limit: 200M
 
   graylog_mongodb:
     image: mongodb-raspberrypi4-unofficial-r7.0.3
@@ -19,11 +20,12 @@ services:
     networks:
       - backend
     restart: "on-failure"
+    mem_limit: 200M
 
   opensearch:
     image: "opensearchproject/opensearch:2.4.0"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - "bootstrap.memory_lock=true"
       - "discovery.type=single-node"
       - "action.auto_create_index=false"
@@ -41,6 +43,7 @@ services:
     networks:
       - backend
     restart: "on-failure"
+    mem_limit: 1024M
 
   graylog:
     hostname: "server"
@@ -75,6 +78,7 @@ services:
       - "graylog_journal:/usr/share/graylog/data/journal"
     networks:
       - backend
+    mem_limit: 512M
   
   mqtt:
     image: "eclipse-mosquitto:latest"
@@ -87,6 +91,7 @@ services:
       - ../mqtt_data:/mosquitto/data:rw
     networks:
       - backend
+    mem_limit: 64M
 
   app:
     image: andreclerigo/payload-dashboard-api:latest-arm64
@@ -109,6 +114,7 @@ services:
       - ./wait-for-graylog.sh:/wait-for-graylog.sh
       - ./start-app.sh:/start-app.sh
     command: ["/start-app.sh"]
+    mem_limit: 150M
 
 volumes:
   mongodb_data:
