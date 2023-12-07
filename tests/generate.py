@@ -5,6 +5,10 @@ import random
 
 
 altitude = 3000
+yaw_increment = 10
+current_yaw = 0
+roll_increment = 10
+current_roll = 0
 
 def generate_bme680_data():
     # A function that generates data for temperature, humidity, pressure, and gas resistance
@@ -55,6 +59,8 @@ def generate_neo7m_data():
     }
 
 def generate_mpu6500_data():
+    global current_yaw
+    global current_roll
     # A function that generates data for accelerometer, gyroscope, and magnetometer
     # the data is is close to a real world usage i.e., there are no sudden jumps in the data
 
@@ -64,12 +70,25 @@ def generate_mpu6500_data():
         "y": random.uniform(0, 10),
         "z": random.uniform(0, 10)
     }
+
+    # Update yaw rotation
+    current_yaw += yaw_increment
+    if current_yaw > 360:  # Reset yaw after a full rotation
+        current_yaw -= 360
+    # Update roll rotation
+    current_roll += roll_increment
+    if current_roll > 360:  # Reset yaw after a full rotation
+        current_roll -= 360
+
     # Gyroscope
     gyroscope = {
-        "x": random.uniform(0, 10),
-        "y": random.uniform(0, 10),
-        "z": random.uniform(0, 10)
-    }
+        # "x": random.uniform(0, 10),
+        # "y": random.uniform(0, 10),
+        # "z": random.uniform(0, 10)
+        "x": 0,
+        "y": current_yaw,
+        "z": current_roll
+    }    
 
     return {
         "data": {
