@@ -79,7 +79,9 @@ Here is a list of the services, their ports, and URLs:
 2. **Graylog**
    - Ports: 5044, 5140, 5555, 9000, 12201, 13301, 13302
    - Web Interface: http://localhost:9000
-3. **Custom Application**
+3. **MQTT**
+   - Ports: 1883, 9001
+5. **Custom Application**
    - Port: 3000
    - URL: http://localhost:3000  
 <br>
