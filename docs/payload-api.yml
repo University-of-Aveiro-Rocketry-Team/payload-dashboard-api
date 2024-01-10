@@ -35,18 +35,18 @@ components:
               type: number
               description: The longitude in degrees.
               example: -9.142685
-            altitude:
-              type: number
-              description: The altitude in meters.
-              example: 0
             speed:
               type: number
-              description: The speed in km/h.
+              description: The speed in knots.
               example: 0
             time:
               type: string
               description: The time in UTC (Hours, Minutes and Seconds).
               example: 12:00:00
+            date:
+              type: string
+              description: The date in UTC (Day, Month and Year).
+              example: 01-01-2020
     
     GPRMC_Data:
       type: object
@@ -72,7 +72,7 @@ components:
             date:
               type: string
               description: The date in UTC (Day, Month and Year).
-              example: 12:00:00
+              example: 01-01-2020
 
     GPVTG_Data:
       type: object
