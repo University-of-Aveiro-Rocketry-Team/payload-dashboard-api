@@ -14,6 +14,15 @@ Before you begin, ensure that you have the following installed on your system:
 [NPM v6.x or Newer](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)  
 [Docker](https://docs.docker.com/engine/install/)  
 [Docker Compose](https://docs.docker.com/compose/install/)  
+
+Download Pre-Built MongoDB Raspberry Pi Docker Image
+```bash
+wget https://github.com/themattman/mongodb-raspberrypi-docker/releases/download/r7.0.4-mongodb-raspberrypi-docker-unofficial/mongodb.ce.pi4.r7.0.4-mongodb-raspberrypi-docker-unofficial.tar.gz
+```
+Load the release
+```
+$ docker load --input mongodb.ce.pi4.r7.0.4-mongodb-raspberrypi-docker-unofficial.tar.gz
+```
 <br>
 
 ## Getting Started
