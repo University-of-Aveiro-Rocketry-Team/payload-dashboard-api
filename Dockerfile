@@ -1,22 +1,33 @@
-# Node.js LTS image
-FROM node:lts-alpine
+# Use a smaller base image for production
+FROM node:lts-alpine AS build
 
-# Working directory for the app
+# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json files to the working directory
-COPY package*.json ./
+# Copy only necessary files for installing dependencies
+COPY package.json package-lock.json ./
 
-# Install the app dependencies
-RUN npm install
+# Install only production dependencies
+RUN npm ci --only=production
 
-# Copy the app source code to the working directory except the .env file
+# Copy the rest of the application files
 COPY . .
 
-ENV PORT=3000
-
-# Expose the port that the app will run on
+# Expose the application port
 EXPOSE 3000
 
-# Start the app
-CMD [ "npm", "run", "dev" ]
+# Use a smaller runtime image for final deployment
+FROM node:lts-alpine AS runtime
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy only necessary files from the build stage
+COPY --from=build /usr/src/app /usr/src/app
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Start the application
+CMD ["node", "server.js"]
