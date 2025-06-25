@@ -1,7 +1,7 @@
 const { MongoClient, ObjectId } = require("mongodb");
 const { publishMessage } = require("./broker");
 const logger = require("./logger");
-const static = require("./static");
+const staticConfig = require("./static");
 
 // Connection URI and client
 const uri = `mongodb://${process.env.MONGODB_HOST || "mongodb"}:27017`;
