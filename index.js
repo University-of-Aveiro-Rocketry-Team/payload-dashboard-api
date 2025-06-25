@@ -5,6 +5,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");
 const path = require("path");
+const { initDb } = require("./database");
 require("dotenv").config();
 
 const static = require("./static");
@@ -13,7 +14,7 @@ const package = require("./package.json");
 const PORT = process.env.PORT || static.PORT;
 const IP = process.env.IP || "127.0.0.1";
 const PROTOCOL = process.env.PROTOCOL ? "https" : "http";
-const URL = PROTOCOL + "://" + IP + ":" + (process.env.PORT ? process.env.PORT : PORT);
+const URL = PROTOCOL "://" IP ":" (process.env.PORT ? process.env.PORT : PORT);
 
 
 app.use(
@@ -80,7 +81,7 @@ fs.readdir(static.ROUTES_DIR, (err, files) => {
   files.forEach((file) =>
     app.use(
       `/api/v1/${file.replace(".js", "")}`,
-      require(static.ROUTES_DIR + file.replace(".js", ""))
+      require(static.ROUTES_DIR file.replace(".js", ""))
     )
   );
 
@@ -88,7 +89,7 @@ fs.readdir(static.ROUTES_DIR, (err, files) => {
   app.use((req, res, next) => {
     res.status(404).json({
       message: `404 | Endpoint ${req.url} Not Found!`,
-      url: URL + req.url,
+      url: URL req.url,
       timestamp: new Date().toISOString(),
     });
 
@@ -96,7 +97,15 @@ fs.readdir(static.ROUTES_DIR, (err, files) => {
   });
 });
 
-// Startup Message
-app.listen(PORT, () => {
-  console.log(`App listening on ${URL}`);
-});
+
+// Connect to MongoDB, then start the HTTP server
+initDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`App listening on ${URL}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB, exiting:", err);
+    process.exit(1);
+  });

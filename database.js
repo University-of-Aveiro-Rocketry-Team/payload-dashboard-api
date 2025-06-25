@@ -3,94 +3,88 @@ const { publishMessage } = require("./broker");
 const logger = require("./logger");
 const static = require("./static");
 
+// Connection URI and client
+const uri = `mongodb://${process.env.MONGODB_HOST || "mongodb"}:27017`;
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  // Optional: tune pool size and timeouts
+  // maxPoolSize: 20,
+  // serverSelectionTimeoutMS: 5000,
+});
+let db;
+
+// Initialize and cache the database connection
+const initDb = async () => {
+  if (!db) {
+    await client.connect();
+    db = client.db(staticConfig.DATABASE_NAME);
+    console.log("MongoDB connected");
+  }
+  return db;
+};
+
+// Fetch all documents from a collection
 const fetchFromDatabase = async (collectionName) => {
-  const mongoClient = new MongoClient(
-    "mongodb://" +
-    (process.env.MONGODB_HOST ? process.env.MONGODB_HOST : "localhost") +
-    ":27017"
-  );
-
   try {
-    await mongoClient.connect();
-    const database = mongoClient.db(static.DATABASE_NAME);
+    const database = await initDb();
     const collection = database.collection(collectionName);
-    let data = await collection.find({}).toArray();
-
+    const data = await collection.find({}).toArray();
     logger.info(`[DATABASE] Fetched data from ${collectionName} collection`);
     return data;
   } catch (error) {
     logger.error({
-      message: `[DATABASE] Failed to fetch data from ${collectionName} collection: ${error.message}`,
+      message: `[DATABASE] Failed to fetch data from ${collectionName}: ${error.message}`,
       error,
     });
-    console.error(error); // Debugging purposes
     throw new Error("Failed to fetch data from database");
-  } finally {
-    await mongoClient.close();
   }
 };
 
+// Insert a new document (and publish to MQTT if needed)
 const addToDatabase = async (collectionName, data) => {
-  const mongoClient = new MongoClient(
-    "mongodb://" +
-    (process.env.MONGODB_HOST ? process.env.MONGODB_HOST : "localhost") +
-    ":27017"
-  );
-
   try {
-    await mongoClient.connect();
-    const database = mongoClient.db(static.DATABASE_NAME);
+    const database = await initDb();
     const collection = database.collection(collectionName);
-
-    // Add a timestamp to the data
     data.timestamp = new Date();
-
-    await collection.insertOne(data);
-    logger.info(`[DATABASE] Added data to ${collectionName} collection`);
-
-    if (collectionName == "neo7m" || collectionName == "mpu6500") {
+    const result = await collection.insertOne(data);
+    logger.info(`[DATABASE] Added document to ${collectionName} collection`);
+    if (["neo7m", "mpu6500"].includes(collectionName)) {
       publishMessage(collectionName, data);
     }
+    return result;
   } catch (error) {
     logger.error({
-      message: `[DATABASE] Failed to add data to ${collectionName} collection: ${error.message}`,
+      message: `[DATABASE] Failed to add data to ${collectionName}: ${error.message}`,
       error,
     });
-    console.error(error); // Debugging purposes
-    throw new Error("Failed to post data from database");
-  } finally {
-    await mongoClient.close();
+    throw new Error("Failed to add data to database");
   }
 };
 
+// Delete a document by its ObjectId
 const deleteFromDatabase = async (collectionName, idValue) => {
-  const mongoClient = new MongoClient(
-    "mongodb://" +
-      (process.env.MONGODB_HOST ? process.env.MONGODB_HOST : "localhost") +
-      ":27017"
-  );
-
   try {
-    await mongoClient.connect();
-    const database = mongoClient.db(static.DATABASE_NAME);
+    const database = await initDb();
     const collection = database.collection(collectionName);
-    const data = await collection.findOne({ _id: new ObjectId(idValue) });
-    if (data) {
-      await collection.deleteOne({ _id: new ObjectId(idValue) });
+    const result = await collection.findOneAndDelete({ _id: new ObjectId(idValue) });
+    if (result.value) {
+      logger.warn(
+        `[DATABASE] Deleted document from ${collectionName} with id: ${idValue}`
+      );
+      return result.value;
+    } else {
+      logger.warn(
+        `[DATABASE] No document found in ${collectionName} with id: ${idValue}`
+      );
+      return null;
     }
-    logger.warn(
-      `[DATABASE] Deleted data from ${collectionName} collection with id: ${idValue}`
-    );
-    return data;
   } catch (error) {
     logger.error({
-      message: `[DATABASE] Failed to delete data from ${collectionName} collection: ${error.message}`,
+      message: `[DATABASE] Failed to delete data from ${collectionName}: ${error.message}`,
       error,
     });
-    console.error(error); // Debugging purposes
     throw new Error("Failed to delete data from database");
-  } finally {
-    await mongoClient.close();
   }
 };
 
@@ -124,6 +118,7 @@ const updateDatabase = async (collectionName, param, paramValue, newValues) => {
 
 
 module.exports = {
+  initDb,
   fetchFromDatabase,
   addToDatabase,
   updateDatabase,
