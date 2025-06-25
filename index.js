@@ -16,6 +16,15 @@ const PROTOCOL = process.env.PROTOCOL ? "https" : "http";
 const URL = PROTOCOL + "://" + IP + ":" + (process.env.PORT ? process.env.PORT : PORT);
 
 
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+    allowedHeaders: ["Content-Type","Authorization"],
+  })
+);
+app.options("*", cors());
+
 // Setup Express Middleware
 app.use(express.json());
 
@@ -29,17 +38,6 @@ app.use((err, req, res, next) => {
 
 // Expose public content
 app.use("/public", express.static(path.join(__dirname, "public")));
-
-// Enable Cors Middleware
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-app.options("*", cors());
 
 // Setup Swagger Docs
 const swagger_options = {
