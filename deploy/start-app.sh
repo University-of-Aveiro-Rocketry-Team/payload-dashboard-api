@@ -2,7 +2,7 @@
 
 set -e
 
-/wait-for-graylog.sh graylog
+# /wait-for-graylog.sh graylog
 
 echo "Starting app"
 npm run start
