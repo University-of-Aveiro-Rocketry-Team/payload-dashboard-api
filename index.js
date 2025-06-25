@@ -20,7 +20,7 @@ const URL = PROTOCOL + "://" + IP + ":" + (process.env.PORT ? process.env.PORT :
 app.use(
   cors({
     origin: "*",
-    methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type","Authorization"],
   })
 );
@@ -81,7 +81,7 @@ fs.readdir(static.ROUTES_DIR, (err, files) => {
   files.forEach((file) =>
     app.use(
       `/api/v1/${file.replace(".js", "")}`,
-      require(static.ROUTES_DIR file.replace(".js", ""))
+      require(static.ROUTES_DIR + file.replace(".js", ""))
     )
   );
 
@@ -89,7 +89,7 @@ fs.readdir(static.ROUTES_DIR, (err, files) => {
   app.use((req, res, next) => {
     res.status(404).json({
       message: `404 | Endpoint ${req.url} Not Found!`,
-      url: URL req.url,
+      url: URL + req.url,
       timestamp: new Date().toISOString(),
     });
 
