@@ -49,7 +49,7 @@ const swagger_options = {
       description: package["description"],
       contact: { name: "André Clérigo", email: "andreclerigo@ua.pt" },
     },
-    servers: [{ url: URL, description: "Payload API" }],
+    servers: [{ url: "/", description: "Payload API" }],
   },
   apis: ["./routes/*.js", "./docs/payload-api.yml"],
 };
